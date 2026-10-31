@@ -31,7 +31,7 @@ Aplikasi pengelola dan editor video otomatis berkecepatan tinggi yang dirancang 
    git add .
    git commit -m "Initial commit: Studio Video AutoPilot v2.6"
    git branch -M main
-   git remote add origin https://github.com/USERNAME/REPOSITORY_NAME.git
+   git remote add origin https://github.com/ojifaoji05/Studio-Video-AutoPilot.git
    git push -u origin main
    ```
 
