@@ -1,0 +1,6 @@
+{
+  "name": "Studio Video AutoPilot FFmpeg & Downloader",
+  "description": "Aplikasi pengelola video FFmpeg cepat, unduh video all sosmed, narasi AI multi-bahasa, overlay Pexels/Pixabay, dan otomasi Python background.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
