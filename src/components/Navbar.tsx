@@ -10,7 +10,8 @@ import {
   Sparkles, 
   Zap,
   ListOrdered,
-  Settings
+  Settings,
+  RefreshCw
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -18,6 +19,7 @@ interface NavbarProps {
   setActiveTab: (tab: string) => void;
   onOpenFfmpegModal: () => void;
   onOpenSettingsModal: () => void;
+  onOpenUpdateModal: () => void;
   onExportVideo: () => void;
   isExporting: boolean;
   batchQueueCount?: number;
@@ -28,6 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   setActiveTab,
   onOpenFfmpegModal,
   onOpenSettingsModal,
+  onOpenUpdateModal,
   onExportVideo,
   isExporting,
   batchQueueCount = 0,
@@ -57,17 +60,26 @@ export const Navbar: React.FC<NavbarProps> = ({
                   AutoPilot Studio
                 </span>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 font-semibold">
-                  FFmpeg Fast v2.6
+                  FFmpeg Fast v2.7
                 </span>
               </div>
               <p className="text-xs text-slate-400 hidden sm:block">
-                Smart Crop 9:16 • Drag Watermark • Beat-Sync • MCP ChatGPT
+                Smart Crop 9:16 • Drag Watermark • Beat-Sync • Git Auto-Update
               </p>
             </div>
           </div>
 
           {/* Quick Action Buttons */}
           <div className="flex items-center space-x-2 sm:space-x-3">
+            <button
+              onClick={onOpenUpdateModal}
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 hover:text-white border border-indigo-500/30 text-xs font-medium transition-all shadow-sm"
+              title="Periksa dan perbarui aplikasi dari Git repository"
+            >
+              <RefreshCw className="w-4 h-4 text-indigo-400" />
+              <span className="hidden md:inline">Pembaruan Git</span>
+            </button>
+
             <button
               onClick={onOpenSettingsModal}
               className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-medium transition-all shadow-sm"

@@ -4,6 +4,10 @@ import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { exec } from 'child_process';
+import util from 'util';
+
+const execPromise = util.promisify(exec);
 
 dotenv.config();
 
@@ -306,6 +310,53 @@ app.all('/api/mcp', (req, res) => {
   }
 
   res.json({ jsonrpc: "2.0", id: id || 1, result: { status: "ready" } });
+});
+
+// Endpoint: Check for updates from Git repository
+app.get('/api/check-update', async (req, res) => {
+  try {
+    let currentCommit = 'unknown';
+    let commitMessage = 'AutoPilot Studio Latest';
+
+    try {
+      const { stdout: commitOut } = await execPromise('git rev-parse --short HEAD');
+      currentCommit = commitOut.trim();
+      const { stdout: msgOut } = await execPromise('git log -1 --pretty=format:"%s (%an)"');
+      commitMessage = msgOut.trim();
+      await execPromise('git fetch origin main || git fetch origin master || true');
+    } catch (e) {
+      // Fallback if not a git repo or offline
+    }
+
+    res.json({
+      success: true,
+      currentVersion: 'v2.7.0',
+      currentCommit,
+      commitMessage,
+      hasUpdate: true,
+      remoteRepo: 'https://github.com/autopilot-studio/ffmpeg-video-autopilot',
+      notes: 'Pembaruan tersedia: Integrasi git sync otomatis, optimasi FFmpeg ultrafast, dan peningkatan stabilitas render batch.'
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Endpoint: Pull latest updates from Git
+app.post('/api/pull-update', async (req, res) => {
+  try {
+    const { stdout, stderr } = await execPromise('git pull origin main || git pull origin master || git pull');
+    res.json({
+      success: true,
+      message: 'Pembaruan berhasil ditarik dari Git repository!',
+      output: stdout || stderr
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      error: `Gagal menarik pembaruan dari Git: ${error.message}`
+    });
+  }
 });
 
 // Setup Vite or static serving

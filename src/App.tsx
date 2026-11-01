@@ -14,6 +14,7 @@ import { SeoGenerator } from './components/SeoGenerator';
 import { PythonAutomationGuide } from './components/PythonAutomationGuide';
 import { FfmpegCommandModal } from './components/FfmpegCommandModal';
 import { ApiSettingsModal } from './components/ApiSettingsModal';
+import { AutoUpdateModal } from './components/AutoUpdateModal';
 import { 
   VideoSource, 
   OverlayItem, 
@@ -194,6 +195,7 @@ export default function App() {
   const [exportSuccessMessage, setExportSuccessMessage] = useState<string | null>(null);
   const [isFfmpegModalOpen, setIsFfmpegModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const updateSettings = (newSettings: Partial<StudioSettings>) => {
     setSettings((prev) => ({ ...prev, ...newSettings }));
@@ -251,6 +253,7 @@ export default function App() {
         setActiveTab={setActiveTab}
         onOpenFfmpegModal={() => setIsFfmpegModalOpen(true)}
         onOpenSettingsModal={() => setIsSettingsModalOpen(true)}
+        onOpenUpdateModal={() => setIsUpdateModalOpen(true)}
         onExportVideo={handleExportVideo}
         isExporting={isExporting}
         batchQueueCount={batchQueue.filter((q) => q.status === 'waiting' || q.status === 'downloading').length}
@@ -360,6 +363,12 @@ export default function App() {
         onClose={() => setIsSettingsModalOpen(false)}
         apiSettings={apiSettings}
         onUpdateApiSettings={setApiSettings}
+      />
+
+      {/* Auto-Update & Git Sync Modal */}
+      <AutoUpdateModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
       />
 
       {/* Footer */}
