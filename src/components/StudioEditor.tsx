@@ -32,6 +32,7 @@ import {
 import { VideoSource, OverlayItem, NarrationData, StudioSettings } from '../types';
 import { BACKGROUND_MUSIC_TRACKS } from '../data/mockAssets';
 import { generateBeatMap, checkIsBeatHit } from '../utils/audioBeatDetector';
+import { PerformanceMonitor } from './PerformanceMonitor';
 
 interface StudioEditorProps {
   activeVideo: VideoSource | null;
@@ -694,8 +695,15 @@ export const StudioEditor: React.FC<StudioEditorProps> = ({
           </div>
         </div>
 
-        {/* Right Column: Custom Watermark, Smart Crop, Beat Sync, Anti-Duplication */}
+        {/* Right Column: Performance Monitor, Custom Watermark, Smart Crop, Beat Sync, Anti-Duplication */}
         <div className="lg:col-span-5 space-y-5">
+          {/* FFmpeg Performance Monitor Widget */}
+          <PerformanceMonitor 
+            isExporting={isExporting} 
+            isPlaying={isPlaying} 
+            activeFiltersCount={settings.colorGrading !== 'none' ? 1 : 0} 
+          />
+
           {/* 1. FITUR WATERMARK DRAG-AND-DROP BEBAS */}
           <div className="bg-slate-900 border border-sky-500/40 rounded-3xl p-5 shadow-xl space-y-4">
             <div className="flex items-center justify-between">
